@@ -2,10 +2,10 @@
 
 #include <iostream>
 #include <fstream>
-#include <array>
+#include <vector>
 #include <string> // for the filename
 #include <algorithm> // for sort and find
-#include <numeric> // for accumilate
+#include <numeric> // for accumulate
 using namespace std;
 
 const string FILENAME = "infile.txt";
@@ -29,27 +29,27 @@ int main() {
         return -1;
     }
     int tempInt = 0;
-    array <int, SIZE> visitors; // array to store items from file
+    vector <int> visitors; // vector to store items from file
     // go back to the beginning so we can store the items in the array
     inFile.clear();
     inFile.seekg(ios::beg);
     int i = 0;
     // read each int from the file and store it in the array in the same order
     while(inFile >> tempInt){ // TODO add validation in case an item is not an int
-        visitors.at(i) = tempInt;
+        visitors.push_back(tempInt);
         ++i;
     }
-    // now the ints from the file are in the array
+    // now the ints from the file are in the vector
 
     // demonstration of array functions
     cout << "Visitors per day" << endl;
     cout << "1. empty function: ";
     if(empty(visitors))
-        cout << "array is empty" << endl;
+        cout << "vector is empty" << endl;
     else
-        cout << "array is not empty" << endl;
+        cout << "vector is not empty" << endl;
     cout << "2. size function: days of data collected = " << size(visitors) << endl;
-    cout << "3. range-based for loop shows original array contents:\n   ";
+    cout << "3. range-based for loop shows original vector contents:\n   ";
     for (int item : visitors) cout << item << " ";
     cout << endl;
     cout << "4. at function to show 4th item: " << visitors.at(3) << endl;
@@ -58,17 +58,18 @@ int main() {
     cout << "6. max_element function: max value is " << *max_element(visitors.begin(), visitors.end()) << endl;
     cout << "7. front function: first value is " << visitors.front() << endl;
     cout << "8. back function: last value is " << visitors.back() << endl;
-    cout <<  "9. overloaded = operator to copy array:" << endl;
-    array <int, SIZE> copy_of_visitors = visitors;
+    cout <<  "9. overloaded = operator to copy vector:" << endl;
+    vector <int> copy_of_visitors = visitors;
     cout << "   copy_of_visitors array: \n   ";
     for (int item : copy_of_visitors) cout << item << " ";
     cout << endl;
-    cout << "10. address of visitors array: " << addressof(visitors) << endl;
-    cout << "11. address of visitors array: " << addressof(copy_of_visitors) << endl;
+    cout << "10. address of visitors vector: " << addressof(visitors) << endl;
+    cout << "11. address of visitors vector: " << addressof(copy_of_visitors) << endl;
     cout << "12. sort function:\n   ";
     sort(visitors.begin(), visitors.end());
     for (int item : visitors) cout << item << " ";
     cout << endl;
+    /*
     cout << "13. find function:\n   ";
     cout << "searching for value 23 (appears 3 times in the array)... ";
     array<int, SIZE>::iterator it; // iterator for pointing to elements in the array
@@ -92,5 +93,6 @@ int main() {
     sort(visitors.begin(), visitors.end() - SIZE / 2);
     for (int item : visitors) cout << item << " ";
     cout << endl;
+    */
     return 0;
 }
