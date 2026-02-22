@@ -13,7 +13,7 @@ const int SIZE = 32;
 
 int main() {
 /* Get items from a file that stores 1 integer per line,
-*  and store them in an array for the program to work with.
+*  and store them in a vector for the program to work with.
 *  This simulates a situation where we keep track of the
 *  visitors a web page recieves each day.
 */
@@ -30,18 +30,18 @@ int main() {
     }
     int tempInt = 0;
     vector <int> visitors; // vector to store items from file
-    // go back to the beginning so we can store the items in the array
+    // go back to the beginning so we can store the items in the vector
     inFile.clear();
     inFile.seekg(ios::beg);
     int i = 0;
-    // read each int from the file and store it in the array in the same order
+    // read each int from the file and store it in the vector in the same order
     while(inFile >> tempInt){ // TODO add validation in case an item is not an int
         visitors.push_back(tempInt);
         ++i;
     }
     // now the ints from the file are in the vector
 
-    // demonstration of array functions
+    // demonstration of vector functions
     cout << "Visitors per day" << endl;
     cout << "1. empty function: ";
     if(empty(visitors))
@@ -60,7 +60,7 @@ int main() {
     cout << "8. back function: last value is " << visitors.back() << endl;
     cout <<  "9. overloaded = operator to copy vector:" << endl;
     vector <int> copy_of_visitors = visitors;
-    cout << "   copy_of_visitors array: \n   ";
+    cout << "   copy_of_visitors vector: \n   ";
     for (int item : copy_of_visitors) cout << item << " ";
     cout << endl;
     cout << "10. address of visitors vector: " << addressof(visitors) << endl;
@@ -69,17 +69,16 @@ int main() {
     sort(visitors.begin(), visitors.end());
     for (int item : visitors) cout << item << " ";
     cout << endl;
-    /*
     cout << "13. find function:\n   ";
-    cout << "searching for value 23 (appears 3 times in the array)... ";
-    array<int, SIZE>::iterator it; // iterator for pointing to elements in the array
+    cout << "searching for value 23 (appears 3 times in the vector)... ";
+    vector<int>::iterator it; // iterator for pointing to elements in the vector
     it = find(visitors.begin(), visitors.end(), 23);
     if (it != visitors.end())
         cout << "found at position " << it - visitors.begin() << endl;
     else
         cout << "value not found" << endl;
     
-        cout << "   searching for value 100 (is not in the array)... ";
+        cout << "   searching for value 100 (is not in the vector)... ";
     it = find(visitors.begin(), visitors.end(), 100);
     if (it != visitors.end())
         cout << "found at position " << it - visitors.begin() << endl;
@@ -93,6 +92,5 @@ int main() {
     sort(visitors.begin(), visitors.end() - SIZE / 2);
     for (int item : visitors) cout << item << " ";
     cout << endl;
-    */
     return 0;
 }
