@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string> // for the filename
+#include <string> // for the filename and input validation
 #include <algorithm> // for sort and find
 #include <numeric> // for accumulate
 using namespace std;
@@ -28,27 +28,37 @@ int main() {
         cout << "Error: " << e.what();
         return -1;
     }
-    int tempInt = 0;
     vector <int> visitors; // vector to store items from file
     // go back to the beginning so we can store the items in the vector
     inFile.clear();
     inFile.seekg(ios::beg);
     int i = 0;
     // read each int from the file and store it in the vector in the same order
-    while(inFile >> tempInt){ // TODO add validation in case an item is not an int
-        visitors.push_back(tempInt);
-        ++i;
+    string tempInput; // for getting each line from the file
+    int tempInt; // for validating input
+    bool validInput = false;
+    while(i < SIZE && !inFile.eof()) {
+        inFile >> tempInput;
+        try {
+            tempInt = stoi(tempInput);
+            visitors.push_back(tempInt);
+        }
+        catch(const exception& e) {
+            visitors.push_back(0); // if it's not an int, put 0 instead
+            inFile.clear();
+        }        
+        ++i;    
     }
     // now the ints from the file are in the vector
 
     // demonstration of vector functions
     cout << "Visitors per day" << endl;
     cout << "1. empty function: ";
-    if(empty(visitors))
+    if(visitors.empty())
         cout << "vector is empty" << endl;
     else
         cout << "vector is not empty" << endl;
-    cout << "2. size function: days of data collected = " << size(visitors) << endl;
+    cout << "2. size function: days of data collected = " << visitors.size() << endl;
     cout << "3. range-based for loop shows original vector contents:\n   ";
     for (int item : visitors) cout << item << " ";
     cout << endl;
@@ -63,8 +73,8 @@ int main() {
     cout << "   copy_of_visitors vector: \n   ";
     for (int item : copy_of_visitors) cout << item << " ";
     cout << endl;
-    cout << "10. address of visitors vector: " << addressof(visitors) << endl;
-    cout << "11. address of visitors vector: " << addressof(copy_of_visitors) << endl;
+    cout << "10. address of visitors vector: " << visitors.data() << endl;
+    cout << "11. address of visitors vector: " << copy_of_visitors.data() << endl;
     cout << "12. sort function:\n   ";
     sort(visitors.begin(), visitors.end());
     for (int item : visitors) cout << item << " ";
@@ -92,5 +102,6 @@ int main() {
     sort(visitors.begin(), visitors.end() - SIZE / 2);
     for (int item : visitors) cout << item << " ";
     cout << endl;
+    cout << "16. sum of items: " << accumulate(visitors.begin(), visitors.end(), 0);
     return 0;
 }
